@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button id="location-button" @click="getLocation()">Send location</button>
+    <button class="nes-btn" id="location-button" @click="getLocation()">Allow location</button>
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import constants from "../../constants";
 
 export default {
   name: "Location",
-  data() {
+  data () {
     return {
       currentLocation: null,
       gettingLocation: false,
@@ -18,7 +18,7 @@ export default {
     };
   },
   methods: {
-    getLocation() {
+    getLocation () {
       if (!("geolocation" in navigator)) {
         this.error = "Geolocation is not available.";
         return;
@@ -36,7 +36,7 @@ export default {
         }
       );
     },
-    getWeatherData() {
+    getWeatherData () {
       if (this.currentLocation && !this.gettingLocation) {
         axios
           .get("https://kob50kazlg.execute-api.us-east-1.amazonaws.com/conditions?", {
@@ -46,10 +46,10 @@ export default {
             }
           })
           .then(response => {
-            console.log(response);
+            this.$emit('foundForecast', response)
           })
           .catch(response => {
-            console.log(response);
+            this.$emit('foundForecast', response)
           });
       }
     }
